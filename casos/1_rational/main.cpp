@@ -65,7 +65,7 @@ public:
 		r = Rational(1, 3);
 		ASSERT_TRUE(!strcmp("1/3", r.toString().c_str()));
 		std::cout << " PASSED\n Test 11...";
-
+		
 		/* TEST 11 */
 		r += Rational(2, 3);
 		ASSERT_TRUE(!strcmp("1/1", r.toString().c_str()));

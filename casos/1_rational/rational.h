@@ -29,8 +29,8 @@ public:
 	int getDenominator() const;
 	std::string toString() const;
 
-	void operator=   (const Rational&);
-	void operator+=  (const Rational&);
+	void operator= (const Rational&);
+	void operator+= (const Rational&);
 
 	operator double () const;
 };
@@ -75,7 +75,8 @@ std::string Rational::toString() const {
 }
 
 Rational::operator double () const {
-	return 0.0;
+	double doubleRational = numerator/(double)denominator;
+	return doubleRational;
 }
 
 //Greatest common divisor
@@ -110,29 +111,40 @@ void Rational::normalize() {
 
 
 void Rational::operator= (const Rational &right) {
+	denominator = right.denominator;
+	numerator = right.numerator;
 }
 
 void Rational::operator+= (const Rational &right) {
+	numerator = (numerator * right.denominator) + (right.numerator * denominator);
+	denominator = denominator * right.denominator;
+	normalize();
 }
 
 Rational operator+ (const Rational &left, const Rational &right) {
-	return Rational();
+	int num, den;
+	num = (left.getNumerator() * right.getDenominator()) + (right.getNumerator() * left.getDenominator());
+	den  = left.getDenominator() * right.getDenominator();
+	return Rational(num, den);
 }
 
 Rational operator- (const Rational &left, const Rational &right) {
-	return Rational();
+	int num, den;
+	num = (left.getNumerator() * right.getDenominator()) - (right.getNumerator() * left.getDenominator());
+	den  = left.getDenominator() * right.getDenominator();
+	return Rational(num, den);
 }
 
 Rational operator- (const Rational &right) {
-	return Rational();
+	return Rational(-right.getNumerator(), right.getDenominator());
 }
 
 bool operator== (const Rational &left, const Rational &right) {
-	return false;
+	return (left.getNumerator()==right.getNumerator() && left.getDenominator()==right.getDenominator());
 }
 
 bool operator<  (const Rational &left, const Rational &right) {
-	return false;
+	return (left.getNumerator() * right.getDenominator()) < (left.getDenominator() * right.getNumerator());
 }
 
 #endif /* RATIONAL_H_ */
