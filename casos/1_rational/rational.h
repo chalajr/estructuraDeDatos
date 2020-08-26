@@ -47,20 +47,24 @@ Rational::Rational(int num){
 
 Rational::Rational(int num, int dem){
     if (dem == 0){
-        numerator = 0;
-        denominator = 1;
+        throw RangeError();
     }else{
         numerator = num;
         denominator = dem;
     }
+	normalize();
+}
+
+Rational::Rational(const Rational&){
+
 }
 
 int Rational::getNumerator() const {
-	return 0;
+	return numerator;
 }
 
 int Rational::getDenominator() const {
-	return 0;
+	return denominator;
 }
 
 std::string Rational::toString() const {
@@ -87,7 +91,23 @@ int gcd(int a, int b) {
 }
 
 void Rational::normalize() {
+	int sign = 1;
+	if (numerator < 0) {
+		sign = -1;
+		numerator = -numerator;
+	}
+	if (denominator < 0) {
+		sign = -sign;
+		denominator = -denominator;
+	}
+	if (denominator == 0) {
+		throw RangeError();
+	}
+	int Rgcd = gcd(numerator, denominator);
+	numerator = sign * numerator / Rgcd;
+	denominator = denominator / Rgcd;
 }
+
 
 void Rational::operator= (const Rational &right) {
 }
