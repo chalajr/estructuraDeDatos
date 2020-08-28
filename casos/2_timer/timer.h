@@ -31,14 +31,18 @@ public:
 Timer::Timer() : hours(0), minutes(0) {}
 
 Timer::Timer(int hh, int mm) {
+	this->minutes = mm % 60;
+	this->hours = (hh + mm/60) % 24;
 }
 
 Timer::Timer(const Timer &t) {}
 
 int Timer::getHours() const {
+	return this->hours;
 }
 
 int Timer::getMinutes() const {
+	return this->minutes;
 }
 
 std::string Timer::toString() const {
@@ -56,15 +60,29 @@ std::string Timer::toString() const {
 }
 
 void Timer::operator= (const Timer &right) {
+	minutes = right.minutes;
+	hours = right.hours;
 }
 
 void Timer::operator+= (const Timer &right) {
+	int res;
+	res = minutes + right.minutes;
+	minutes = res % 60;
+	hours = (hours + right.hours + (res / 60)) % 24;
 }
 
 bool operator== (const Timer &left, const Timer &right) {
+	if(left.getMinutes()==right.getMinutes() && left.getHours()==right.getHours()){
+		return true;
+	}
+	return false;
 }
 
 bool operator> (const Timer &left, const Timer &right) {
+	if(left.getHours() == right.getHours()){
+		return(left.getMinutes() > right.getMinutes());
+	}
+	return (left.getHours() > right.getHours());
 }
 
 #endif /* TIMER_H_ */
