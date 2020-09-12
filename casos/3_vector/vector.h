@@ -120,8 +120,8 @@ unsigned int Vector<T>::resize(unsigned int newSize, T &initValue) throw (RangeE
 		newData[i] = data[i];
 	}
 
-	for (unsigned int i = 0 ; i < limit; i++){
-		newData[i] = data[i];
+	for (unsigned int i = size ; i < newSize; i++){
+		newData[i] = initValue;
 	}
 
 	delete [] data;
@@ -145,7 +145,7 @@ std::string Vector<T>::toString() const {
 
 template <class T>
 T& Vector<T>::operator[] (unsigned int index) const throw (IndexOutOfBounds) {
-	if (index <= 0 || index < size ){
+	if (index < 0 || index >= size ){
 		throw IndexOutOfBounds();
 	}
 	return data[index];
