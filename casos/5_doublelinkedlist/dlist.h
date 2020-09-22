@@ -358,7 +358,19 @@ int DList<T>::indexOf(T val) const {
 
 template <class T>
 int DList<T>::lastIndexOf(T val) const {
-	
+	int index;
+	DLink<T> *p;
+
+	index = size - 1;
+	p = tail;
+	while (p != 0) {
+		if (p->value == val) {
+			return index;
+		}
+		index--;
+		p = p->previous;
+	}
+	return -1;
 }
 
 template <class T>
@@ -396,11 +408,89 @@ T DList<T>::remove(int index) throw (IndexOutOfBounds) {
 
 template <class T>
 bool DList<T>::removeFirstOcurrence(T val) {
-	return false;
+	DLink<T> *current;
+	current = head;
+	
+	while(current != 0){
+		if(current->value == val){
+			break;
+		}
+		else{
+			current = current->next;
+		}
+	}
+
+	if (current != 0) {
+		if (current->previous == 0) {
+			head = current->next;
+			current->next->previous = 0;
+		} else {
+			current->previous->next = current->next;
+			if (current->next != 0) {
+				current->next->previous = current->previous;
+			}
+		}
+		size--;
+		return true;
+	}
+
+	/*if (current->previous = 0){
+		head = current->next;
+		head->previous = 0;
+		current->next = 0;
+		delete current;
+		return true;
+		size--;
+	}
+
+	else if(current->next = 0){
+		tail = current->previous;
+		tail->next = 0;
+		current->previous = 0;
+		delete current;
+		return true;
+		size--;
+	}
+
+	else if(current->next != 0 && current->previous != 0){
+		current->previous->next = current->next;
+		current->next->previous = current->previous;
+		delete current;
+		size--;
+		return true;
+	}
+	else{
+		return false;
+	}*/
 }
 
 template <class T>
 bool DList<T>::removeLastOcurrence(T val) {
+	DLink<T> *current;
+	current = tail;
+	
+	while(current != 0){
+		if(current->value == val){
+			break;
+		}
+		else{
+			current = current->previous;
+		}
+	}
+
+	if (current != 0) {
+		if (current->previous == 0) {
+			head = current->next;
+			current->next->previous = 0;
+		} else {
+			current->previous->next = current->next;
+			if (current->next != 0) {
+				current->next->previous = current->previous;
+			}
+		}
+		size--;
+		return true;
+	}
 	return false;
 }
 
