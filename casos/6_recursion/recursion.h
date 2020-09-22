@@ -12,19 +12,37 @@
 #include <iostream>
 
 long sum_seq(int n) {
-	return 0;
+	long resultado = 0;
+	int contador = 0;
+	while (contador <= n){
+		resultado = resultado + contador;
+		contador++;
+	}
+	return resultado;
 }
 
 long sum_rec(int n) {
-	return 0;
+	if (n == 1){
+		return 1;
+	}
+	return n + sum_rec(n - 1);
 }
 
 long fact_seq(int n) {
-	return 0;
+	long resultado = 1;
+	long contador = 1;
+	while(contador <= n){
+		resultado = resultado * contador;
+		contador++;
+	}
+	return resultado;
 }
 
 long fact_rec(int n) {
-	return 0;
+	if(n == 0){
+		return 1;
+	}
+	return n * fact_rec(n -1);
 }
 
 long fib_seq(int n) {

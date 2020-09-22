@@ -299,12 +299,30 @@ List<T>::List(const List<T> &source) throw (OutOfMemory) {
 
 template <class T>
 void List<T>::operator=(const List<T> &source) throw (OutOfMemory) {
-	if(source.empty()){
+	Link<T> *p, *q;
+
+	clear();
+	if (source.empty()) {
 		size = 0;
 		head = 0;
-	}
-	else{
-		
+	} else {
+		p = source.head;
+		head = new Link<T>(p->value);
+		if (head == 0) {
+			throw OutOfMemory();
+		}
+		q = head;
+
+		p = p->next;
+		while(p != 0) {
+			q->next = new Link<T>(p->value);
+			if (q->next == 0) {
+				throw OutOfMemory();
+			}
+			p = p->next;
+			q = q->next;
+		}
+		size = source.size;
 	}
 }
 

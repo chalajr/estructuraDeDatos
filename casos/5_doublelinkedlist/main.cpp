@@ -33,6 +33,7 @@ public:
 		ASSERT_TRUE(!strcmp("[2]", b1.toString().c_str()));
 		std::cout << " PASSED.\nTest 5";
 		
+		
 		/* TEST 5 */
 		b1.addFirst(1);
 		ASSERT_TRUE(2 == b1.length());
