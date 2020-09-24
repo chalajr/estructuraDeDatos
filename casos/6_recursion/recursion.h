@@ -121,23 +121,31 @@ bool find_rec(int arr[], int low, int high, int val) {
 }
 
 int max_seq(int arr[], int size) {
-
-	long 
-	resultado,
-	x,
-	y;
-
-	for(int i = 0; i < size; i++){
-		for(int j = 1; j < size; j++){
-			if(arr[i] > arr[j]){
-				resultado = arr[i];
+	int prueba = 0;
+	if(prueba = 1){
+		int com = arr[0];
+		for(int i = 1; i < size; i ++){
+			if(com < arr[i]){
+			com = arr[i];
+			}
+		}	
+	return com;
+	}
+	if(prueba = 0){
+		int res;
+		for(int i = 0; i < size; i++){
+			for(int j = 1; j < size; j++){
+				if(arr[i]<arr[j]){
+					res = arr[j];
+				}
 			}
 		}
+		return res;
 	}
-	return resultado;
 }
 
 int max_rec(int arr[], int low, int high) {
+	int m, n;
 	return 0;
 }
 
