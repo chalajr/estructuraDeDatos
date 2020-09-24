@@ -42,35 +42,99 @@ long fact_rec(int n) {
 	if(n == 0){
 		return 1;
 	}
-	return n * fact_rec(n -1);
+	return n * fact_rec(n - 1);
 }
 
 long fib_seq(int n) {
-	return 0;
+	long x, y, r;
+	int i;
+	if (n == 1 || n == 2){
+		return 1;
+	}
+	x = 1;
+	y = 1;
+	i = 3;
+	
+	while(i <= n){
+		r = x + y;
+		y = x;
+		x = r;
+		i++;
+	}
+	return x;
 }
 
 long fib_rec(int n) {
-	return 0;
+	if(n == 1 || n == 2){
+		return 1;
+	}
+	else{
+		return fib_rec(n-1) + fib_rec(n-2);
+	}
+	
 }
 
 long gcd_seq(long a, long b) {
-	return 0;
+	long res;
+
+	while (b != 0) {
+		res = b;
+		b = a % b;
+		a = res;
+	}
+	return a;
 }
 
 long gcd_rec(long a, long b) {
-	return 0;
+	if(a == 0){
+		return b;
+	}
+	else{
+		return gcd_rec(b % a , a);
+	}
 }
 
 bool find_seq(int arr[], int size, int val) {
+	for(int i = 0; i < size; i++){
+		if(arr[i] == val){
+			return true;
+		}	
+	}
 	return false;
 }
 
 bool find_rec(int arr[], int low, int high, int val) {
-	return false;
+	int mid;
+	bool aux;
+
+	if ( ((high - low) + 1) == 1) {
+		return (val == arr[low]);
+	} else {
+		aux = false;
+		mid = (high + low) / 2;
+		aux = find_rec(arr, low, mid, val);
+		if (!aux) {
+			aux = find_rec(arr, mid + 1, high, val);
+		}
+		return aux;
+	}
 }
 
 int max_seq(int arr[], int size) {
-	return 0;
+
+	long 
+	resultado,
+	x,
+	y;
+
+	for(int i = 0; i < size; i++){
+		for(int j = 1; j < size; j++){
+			if(arr[i] > arr[j]){
+				resultado = arr[i];
+			}
+		}
+	}
+	return resultado;
 }
 
 int max_rec(int arr[], int low, int high) {
