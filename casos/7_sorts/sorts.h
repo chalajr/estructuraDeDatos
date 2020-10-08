@@ -40,24 +40,77 @@ void Sorts<T>::swap(std::vector<T> &v, int i, int j) {
 template <class T>
 std::vector<T> Sorts<T>::bubbleSort(const std::vector<T> &source) {
 	std::vector<T> v(source);
+	int prueba = 1;
+	if(prueba == 1){
+		for (int i = v.size() - 1; i > 0; i--) {
+			for (int j = 0; j < i; j++) {
+				if (v[j] > v[j + 1]) {
+				swap(v, j, j + 1);
+				}
+			}
+		}
 	return v;
+	}
+	int i, j;
+	bool s = false;
+	for(i = 0; i < v.size() - 1; i ++){
+		for(j = 0;j < - i - 1; i++){
+			if(v[j] > v[j + 1]){
+				swap(v, v[j], v[j +1]);
+				s = true;				
+			}
+		}
+	}
+	if(s = false){
+		return v;
+	} 
+	return bubbleSort(v);
 }
 
 template <class T>
 std::vector<T> Sorts<T>::selectionSort(const std::vector<T> &source) {
 	std::vector<T> v(source);
+	int r;
+	for (int i = v.size() - 1; i > 0; i--) {
+		r = 0;
+		for (int j = 1; j <= i; j++) {
+			if (v[j] > v[r]) {
+				r = j;
+			}
+		}
+		if (r != i) {
+			swap(v, i, r);
+		}
+	}
 	return v;
 }
-
 template <class T>
 std::vector<T> Sorts<T>::insertionSort(const std::vector<T> &source) {
 	std::vector<T> v(source);
+	for(int i = 1; i < v.size(); i++){
+		for(int j = i; j > 0; j--){
+			if(v[j] < v[j - 1]){
+				swap(v,j,j-1);
+			}
+		}
+	}
 	return v;
 }
 
 template <class T>
 std::vector<T> Sorts<T>::shellSort(const std::vector<T> &source) {
 	std::vector<T> v(source);
+
+    for (int gap = v.size()/2; gap > 0; gap /= 2){    
+        for (int i = gap; i < v.size(); i += 1) { 
+            int temp = v[i]; 
+            int j;             
+            for (j = i; j >= gap && v[j - gap] > temp; j -= gap){
+				v[j] = v[j - gap];
+			} 
+            v[j] = temp; 
+        } 
+    }
 	return v;
 }
 

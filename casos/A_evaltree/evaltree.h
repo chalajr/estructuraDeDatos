@@ -45,19 +45,36 @@ public:
 	friend class EvalTree;
 };
 
-TreeNode::TreeNode(char c) {}
+TreeNode::TreeNode(char c) {
+	value = c;
+	left = NULL;
+	right = NULL;
+}
 
-TreeNode::TreeNode(char c, TreeNode* le, TreeNode* ri) {}
+TreeNode::TreeNode(char c, TreeNode* le, TreeNode* ri) {
+	value = c;
+	left = le;
+	right = ri;
+}
 
 bool TreeNode::isOperator() const {
+	if(value == '+' || value == '-' || value == '*' || value == '/'){
+		return true;
+	}
 	return false;
 }
 
 bool TreeNode::isVariable() const {
+	if (value == 'x'){
+		return true;
+	}
 	return false;
 }
 
 bool TreeNode::isOperand() const {
+	if (value >= '0' && value <=9) {
+		return true;
+	}
 	return false;
 }
 
