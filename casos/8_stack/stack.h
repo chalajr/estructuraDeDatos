@@ -75,7 +75,8 @@ void StackVector<T>::pop() throw (NoSuchElement) {
 	if(next == 0){
 		throw NoSuchElement();
 	}
-	next = next--;
+	next = next-1;
+	size - 1;
 }
 
 template <class T>
@@ -88,6 +89,7 @@ bool StackVector<T>::empty() const {
 
 template <class T>
 void StackVector<T>::clear() {
+	next = NULL;
 }
 
 template <class T>
@@ -121,30 +123,43 @@ public:
 
 template <class T>
 void StackList<T>::push(T val) {
+	data.push_front(val);
 }
 
 template <class T>
 T StackList<T>::top() const throw (NoSuchElement) {
-	return 0;
+	if(data.front() == 0){
+		throw NoSuchElement();
+	}
+	return data.front();
 }
 
 template <class T>
 void StackList<T>::pop() throw (NoSuchElement) {
+	if(data.front() == 0){
+		throw NoSuchElement();
+	}
+	data.pop_front();
 }
 
 template <class T>
 bool StackList<T>::empty() const {
+	if(data.front()==0){
+		return true;
+	}
 	return false;
 }
 
 template <class T>
 void StackList<T>::clear() {
+	data.front() = 0;
 }
 
 template <class T>
 std::string StackList<T>::toString() const {
 	std::stringstream aux;
 	typename std::list<T>::const_iterator itr = data.begin();
+	//std::list<int>::const_iterator itr;
 
 	aux << "[";
 	if (!data.empty()) {
