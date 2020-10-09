@@ -116,6 +116,9 @@ std::vector<T> Sorts<T>::shellSort(const std::vector<T> &source) {
 
 template <class T>
 void Sorts<T>::copyArray(std::vector<T> &A, std::vector<T> &B, int low, int high) {
+	for (int i = low; i <= high; i++) {
+		A[i] = B[i];
+	}
 }
 
 template <class T>
