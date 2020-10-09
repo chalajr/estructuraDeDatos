@@ -45,61 +45,76 @@ public:
 
 template <class T>
 QueueVector<T>::QueueVector(int sze) throw (OutOfMemory) {
+	if(*data == 0){
+		throw OutOfMemory();
+	}
+	size = sze;
+	data = new T[size];
+	head = NULL;
+	tail = NULL;
+	counter = 0;
 
 }
 
 template <class T>
 QueueVector<T>::~QueueVector() {
-
+	delete[] data;
+	head = NULL;
+	tail = NULL;
+	size = 0;
+	counter = 0;
 }
 
 template <class T>
 bool QueueVector<T>::empty() const {
-    return (counter == 0)? true : false;
+	if(counter == 0){
+		return true;
+	}
+    return false;
 }
 
 template <class T>
 bool QueueVector<T>::full() const {
-    return (counter == size)? true : false;
+	if(size == counter){
+		return true;
+	}
+    return false;
 }
 
 template <class T>
 void QueueVector<T>::enqueue(T val) throw (Overflow) {
-    if(full()){
-       throw Overflow();
-    }
-    data[tail] = val;
-    tail = (tail + 1) % size;
-    counter ++;
+   	if(full()){
+	   throw Overflow();
+   	}
+   	data[tail] = val;
+	tail = (tail + 1) % size;
+	counter++;
 }
 
 template <class T>
 T QueueVector<T>::front() const throw (NoSuchElement) {
-    T aux;
-
-	if(empty()){throw NoSuchElement();}
-
-    aux = data[head];
-
-	return aux;
+    if(empty()){
+		throw NoSuchElement();
+	}
+	return data[head];
 
 }
 
 template <class T>
 void QueueVector<T>::dequeue() throw (NoSuchElement) {
-
-    if(empty()){
-        throw NoSuchElement();
-    }
-    head = (head + 1 ) % size;
-    counter --;
+	if(empty()){
+		throw NoSuchElement();
+	}
+	head = (head + 1) % size;
+	counter--;
 }
 
 template <class T>
 void QueueVector<T>::clear() {
-    tail = 0;
-    head = 0;
-    counter = 0;
+  head = NULL;
+  tail = NULL;
+  counter = 0;
+  size = 0;
 }
 
 template <class T>
@@ -153,14 +168,18 @@ T QueueList<T>::front() const throw (NoSuchElement) {
 
 template <class T>
 void QueueList<T>::dequeue() throw (NoSuchElement) {
-	if(empty()){throw NoSuchElement();}
-
-    data.pop_front();
+	if(empty()){
+		throw NoSuchElement();
+	}
+	data.pop_front();
 }
 
 template <class T>
 bool QueueList<T>::empty() const {
-    return (data.empty()) ? true : false;
+	if(data.empty()){
+		return true;
+	}
+    return false;
 }
 
 template <class T>
