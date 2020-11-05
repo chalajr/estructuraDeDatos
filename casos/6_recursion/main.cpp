@@ -37,7 +37,6 @@ public:
 		/* TEST 5 */
 		ASSERT_TRUE(fib_seq(10) == 55);
 		std::cout << "PASSED.\nTest 6...";
-		
 		/* TEST 6 */
 		ASSERT_TRUE(fib_rec(10) == 55);
 		std::cout << "PASSED.\nTest 7...";

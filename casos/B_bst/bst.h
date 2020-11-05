@@ -37,13 +37,22 @@ public:
 };
 
 template <class T>
-TreeNode<T>::TreeNode(T val) {}
+TreeNode<T>::TreeNode(T val) {
+	value = val;
+	left = NULL;
+	right = NULL;
+}
 
 template <class T>
-TreeNode<T>::TreeNode(T val, TreeNode<T> *le, TreeNode<T> *ri) {}
+TreeNode<T>::TreeNode(T val, TreeNode<T> *le, TreeNode<T> *ri) {
+	value = val;
+	left = le;
+	right = ri;
+}
 
 template <class T>
 void TreeNode<T>::add(T val) {
+	
 }
 
 template <class T>

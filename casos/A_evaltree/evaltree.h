@@ -46,52 +46,105 @@ public:
 };
 
 TreeNode::TreeNode(char c) {
-	value = c;
-	left = NULL;
-	right = NULL;
+  value = c;
+  left = NULL;
+  right = NULL;
 }
 
 TreeNode::TreeNode(char c, TreeNode* le, TreeNode* ri) {
-	value = c;
-	left = le;
-	right = ri;
+  value = c;
+  left = le;
+  right = ri;
 }
 
 bool TreeNode::isOperator() const {
-	if(value == '+' || value == '-' || value == '*' || value == '/'){
-		return true;
-	}
+  if (value == '+' || value == '-' || value == '*' || value == '/') {
+    return true;
+  }
 	return false;
 }
 
 bool TreeNode::isVariable() const {
-	if (value == 'x'){
-		return true;
-	}
+  if (value == 'x') {
+    return true;
+  }
 	return false;
 }
 
 bool TreeNode::isOperand() const {
-	if (value >= '0' && value <=9) {
-		return true;
-	}
+  if (value >= '0' && value <= '9') {
+    return true;
+  }
 	return false;
 }
 
 int TreeNode::depth() const {
-	return 0;
+
+  //encontrar la profundidad de la rama izquierda  
+  int left_depth = -1;
+  if (left != NULL) {
+    left_depth = left->depth();
+  }
+  
+  //encontrar la profundidad de la rama derecha 
+  int right_depth = -1;
+  if (right != NULL) {
+    right_depth = right->depth();
+  }
+
+  //Regresar la mayor de las 2 profundidades
+  int depth = left_depth;
+  if (right_depth > left_depth) {
+    depth = right_depth;
+  }
+
+  return depth + 1;
 }
 
 void TreeNode::inorder(std::stringstream &aux) const {
-	aux << " ";
+  //recorrido in order rama izquierda
+  if(left != NULL) {
+    left->inorder(aux);
+  }
+  
+  //Imprimir el valor del nodo
+	aux << value << " ";
+
+  //recorrido in order rama derecha
+  if(right != NULL) {
+    right->inorder(aux);
+  }
 }
 
 void TreeNode::postorder(std::stringstream &aux) const {
-	aux << " ";
+	//recorrido in order rama izquierda
+  if(left != NULL) {
+    left->postorder(aux);
+  }
+
+  //recorrido in order rama derecha
+  if(right != NULL) {
+    right->postorder(aux);
+  }
+
+  //Imprimir el valor del nodo
+	aux << value << " ";
 }
 
 void TreeNode::preorder(std::stringstream &aux) const {
-	aux << " ";
+	//Imprimir el valor del nodo
+	aux << value << " ";
+  
+  //recorrido in order rama izquierda
+  if(left != NULL) {
+    left->preorder(aux);
+  }
+
+  //recorrido in order rama derecha
+  if(right != NULL) {
+    right->preorder(aux);
+  }
+
 }
 
 int TreeNode::howManyLeaves() const {
@@ -214,14 +267,23 @@ EvalTree::~EvalTree() {
 }
 
 bool EvalTree::empty() const {
+  if( root == NULL) {
+    return true;
+  }
+  return false;
 }
 
 int EvalTree::height() const {
-	return 0;
+  if (empty()) {
+    return 0;
+  }
+	return root->depth() + 1;
 }
 
 std::string EvalTree::inorder() const {
 	std::stringstream aux;
+
+  root->inorder(aux);
 
 	return aux.str();
 }
@@ -229,17 +291,48 @@ std::string EvalTree::inorder() const {
 std::string EvalTree::preorder() const {
 	std::stringstream aux;
 
+  root->preorder(aux);
+
 	return aux.str();
 }
 
 std::string EvalTree::postorder() const {
 	std::stringstream aux;
 
+  root->postorder(aux);
+
 	return aux.str();
 }
 
 std::string EvalTree::levelOrder() const {
 	std::stringstream aux;
+
+  //Necesitamos una fila para hacer un recorrido por niveles
+  std::queue<TreeNode*> q;
+
+  //Metemos a la fila la raíz
+  TreeNode * node = root;
+  q.push(node);
+
+  //Mientras la fila no esté vacía
+  while (!q.empty()) {
+    //Imprimir el frente de la fila
+    node = q.front();
+    aux << node->value << " ";
+
+    //Sacar el elemento de la fila
+    q.pop();
+
+    //si tiene hijo izquierdo, meter el hijo izquierdo a la fila
+    if(node->left != 0) {
+      q.push(node->left);
+    }
+
+    //si tiene hijo derecho, meter el hijo derecho a la fila
+    if(node->right != 0) {
+      q.push(node->right);
+    }
+  }
 
 	return aux.str();
 }

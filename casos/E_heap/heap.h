@@ -39,29 +39,48 @@ public:
 
 template <class T>
 Heap<T>::Heap(unsigned int sze) throw (OutOfMemory) {
+	size = sze;
+	count = 0;
+	data = new T[size];
+	if(data == 0){
+		throw OutOfMemory();
+	}
 }
 
 template <class T>
 Heap<T>::~Heap() {
+	delete []data;
+	data = NULL;
+	size = 0;
 }
 
 template <class T>
 bool Heap<T>::empty() const {
+	if(count == 0){
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 template <class T>
 bool Heap<T>::full() const {
+	if (count == size){
+		return true;
+	}
 	return false;
 }
 
 template <class T>
 unsigned int Heap<T>::parent(unsigned int pos) const {
-	return 0;
+	return (pos - 1)/2;
 }
 
 template <class T>
 unsigned int Heap<T>::left(unsigned int pos) const {
-	return 0;
+
+	return (pos - 2)/2;
 }
 
 template <class T>
@@ -82,6 +101,23 @@ void Heap<T>::heapify(unsigned int pos) {
 
 template <class T>
 void Heap<T>::add(T val) throw (Overflow) {
+	// Verificar que no este lleno el heap 
+	if(full()){
+		throw Overflow();
+	}
+	//Obtener la siguiente posicion disponible
+	int posicion = count;
+	// Agregar el elemento 
+	data[posicion] = val;
+	// Aumentar el count
+	count++;
+	//reheap up 
+	if(posicion > 0 && data[parent(posicion)] > val){
+		swap(data[posicion], data[parent(posicion)]);
+	}
+	
+
+	
 }
 
 template <class T>

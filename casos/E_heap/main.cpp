@@ -27,9 +27,10 @@ public:
 		
 		/* TEST 2 */
 		heap.add(10);
+		std::cout <<"AQUI" <<heap.toString().c_str();
 		ASSERT_TRUE(!strcmp("[10]", heap.toString().c_str()));
 		std::cout << " PASSED.\nTest 3...";
-		
+
 		/* TEST 3 */
 		heap.add(1);
 		ASSERT_TRUE(!strcmp("[1 10]", heap.toString().c_str()));
