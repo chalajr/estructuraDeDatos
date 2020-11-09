@@ -97,6 +97,37 @@ void Heap<T>::swap(unsigned int i, unsigned int j) {
 
 template <class T>
 void Heap<T>::heapify(unsigned int pos) {
+	int prueba = 0;
+	unsigned int posAux;
+	if (prueba == 1){
+		if(data[pos] > data[left(pos)] && left(pos) <= count){
+			swap(pos, left(pos));
+			posAux = left(pos);
+			heapify(posAux);
+		}
+
+		if(data[pos] > data[right(pos)] && right(pos) <= count){
+			swap(pos, right(pos));
+			posAux = right(pos);
+			heapify(posAux);
+		}
+	}
+	else{
+		unsigned int posicion_min = pos;
+		if(data[pos] > data[left(pos)] && left(pos) <= count){
+			posicion_min = left(pos);
+		}
+
+		if(data[pos] > data[right(pos)] && right(pos) <= count){
+			posicion_min = right(pos);
+		}
+
+		if (posicion_min != pos){
+			swap(pos, posicion_min);
+			heapify(posicion_min);
+		}
+	}
+	
 }
 
 template <class T>
@@ -112,23 +143,32 @@ void Heap<T>::add(T val) throw (Overflow) {
 	// Aumentar el count
 	count++;
 	//reheap up 
-	if(posicion > 0 && data[parent(posicion)] > val){
-		swap(data[posicion], data[parent(posicion)]);
+	while (posicion > 0 && data[parent(posicion)] > val){
+		swap(posicion, parent(posicion));
+		posicion = parent(posicion);
 	}
-	
-
-	
 }
 
 template <class T>
 T Heap<T>::remove() throw (NoSuchElement) {
-	T aux;
-	
+	// verificar que no este vacio el elemento que quiero eliminar
+	if(empty()){
+		throw NoSuchElement();
+	}
+
+	T aux = data[0];
+	// pasar el ultimo elemento de la raiz 
+	data[0] = data[count - 1];
+	// reheap down
+	heapify(0);
+	// eliminar el ultimo elemento
+	// actualizar el count
 	return aux;
 }
 
 template <class T>
 void Heap<T>::clear() {
+	count = 0;
 }
 	
 

@@ -45,36 +45,96 @@ public:
 	friend class EvalTree;
 };
 
-TreeNode::TreeNode(char c) {}
+TreeNode::TreeNode(char c) {
+	value = c;
+	right = NULL;
+	left = NULL;
+}
 
-TreeNode::TreeNode(char c, TreeNode* le, TreeNode* ri) {}
+TreeNode::TreeNode(char c, TreeNode* le, TreeNode* ri) {
+	value = c;
+	right = ri;
+	left = le;
+}
 
 bool TreeNode::isOperator() const {
+	if(value == '/' || value == '*' || value == '+' || value == '-'){
+		return true;
+	}
 	return false;
 }
 
 bool TreeNode::isVariable() const {
+	if(value == 'x' || value == 'y'){
+		return true;
+	}
 	return false;
 }
 
 bool TreeNode::isOperand() const {
+	if(value > '0' && value < '9'){
+		return true;
+	}
 	return false;
 }
 
 int TreeNode::depth() const {
+	int totalCount;
+	int right_count = -1;
+	int left_count = -1;
+
+
+
+	if(right != 0){
+		right_count = right->depth();
+	}
+
+
+	if(left != 0){
+		left_count = left->depth();
+	}
+	
 	return 0;
 }
 
 void TreeNode::inorder(std::stringstream &aux) const {
-	aux << " ";
+	if(left != 0){
+        left->inorder(aux);
+	}
+
+	aux << value << " ";
+
+	if(right != 0){
+        right->inorder(aux);
+	}
 }
 
 void TreeNode::postorder(std::stringstream &aux) const {
-	aux << " ";
+
+    if(left != 0){
+        left->postorder(aux);
+	}
+
+	if(right != 0){
+        right->postorder(aux);
+	}
+
+	aux << value << " ";
+
 }
 
 void TreeNode::preorder(std::stringstream &aux) const {
-	aux << " ";
+
+	aux << value << " ";
+
+    if(left != 0){
+        left->preorder(aux);
+	}
+
+	if(right != 0){
+        right->preorder(aux);
+	}
+
 }
 
 int TreeNode::howManyLeaves() const {
@@ -197,32 +257,55 @@ EvalTree::~EvalTree() {
 }
 
 bool EvalTree::empty() const {
+    return (root ==0)? true:false;
 }
 
 int EvalTree::height() const {
-	return 0;
+	if (empty()){
+		return 0;
+	}
+	else{
+		return root->depth() - 1;
+	}
+	
 }
 
 std::string EvalTree::inorder() const {
 	std::stringstream aux;
-
+	root->inorder(aux);
 	return aux.str();
 }
 
 std::string EvalTree::preorder() const {
 	std::stringstream aux;
-
+	root->preorder(aux);
 	return aux.str();
 }
 
 std::string EvalTree::postorder() const {
 	std::stringstream aux;
-
+    root->postorder(aux);
 	return aux.str();
 }
 
 std::string EvalTree::levelOrder() const {
 	std::stringstream aux;
+	std::queue<TreeNode*> s;
+	TreeNode *p;
+
+    p = root;
+    s.push(p);
+
+    while(!s.empty()){
+        p = s.front();
+        aux << p->value << " "; s.pop();
+        if(p->left != 0){
+            s.push(p->left);
+        }
+        if(p->right!= 0){
+            s.push(p->right);
+        }
+    }
 
 	return aux.str();
 }
