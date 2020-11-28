@@ -54,11 +54,33 @@ void TreeNode::removeChilds() {
 }
 
 bool TreeNode::isFull() const {
+	//si no tiene hijos esta lleno 
+	if(left == NULL && right == NULL){
+		return true;
+	}
+	//Si tiene hijo izquierdo y esta lleno y tiene hijo derecho y esta lleno entonces esta lleno
+	if(left != NULL && right != NULL && left->isFull() && right->isFull()){
+		return true;
+	}
 	return false;
 }
 
 int TreeNode::internalNodes() const {
-	return 0;
+	
+	//Si es hoja regresa cero
+	if(isLeaf()){
+		return 0;
+	}
+	//Si tiene un hijo, regresa los nodos internos del hijo
+	int count = 1;
+	if(left != NULL){
+		count = count + left->internalNodes();
+	}
+
+	if(right != NULL){
+		count = count + right->internalNodes();
+	}
+	return count;
 }
 
 int TreeNode::depth() const {
@@ -77,6 +99,21 @@ int TreeNode::depth() const {
 }
 
 bool TreeNode::isPerfect() const {
+	int le, ri;
+	if(isLeaf()){
+		return true;
+	}
+	if (left != 0 && right != 0) {
+		le = left->depth();
+		ri = right->depth();
+		if(le == ri){
+			return true;
+		}
+		else{
+			return false;
+		}
+		
+	}
 	return false;		
 }
 
@@ -86,6 +123,37 @@ bool TreeNode::isLeaf() const {
 
 
 bool TreeNode::isDegenerate() const {
+	//Si es hoja regresa falso
+	if(isLeaf()){
+		return false;
+	}
+	//Si tiene dos hijos regresa falso
+	if(left != 0 && right != 0){
+		return false;
+	}
+	//Si tiene hijo a la izquierda solamente 
+	if(left != 0){
+		//Si el hijo es una hoja regresa verdadero
+		if(left->isLeaf()){
+			return true;
+		}
+		//Si no es hoja revisamos si ese hijo genera una degeneracion
+		else{
+			return left->isDegenerate();
+		}
+	}
+
+	//Si tiene hijo a la derecha solamente 
+	if(right != 0){
+		//Si el hijo es una hoja regresa verdadero
+		if(right->isLeaf()){
+			return true;
+		}
+		//Si no es hoja revisamos si ese hijo genera una degeneracion
+		else{
+			return right->isDegenerate();
+		}
+	}
 	return false;
 }
 

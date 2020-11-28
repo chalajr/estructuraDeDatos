@@ -52,11 +52,54 @@ TreeNode<T>::TreeNode(T val, TreeNode<T> *le, TreeNode<T> *ri) {
 
 template <class T>
 void TreeNode<T>::add(T val) {
-	
+	//Si val es menor que value
+	if(val < value){
+		// Si no tiene rama izquierda
+		
+		if(left == NULL){
+			//Insertamos en el nodo izquierda
+			left = new TreeNode<T>(val);
+		}
+		// Si tiene rama izquierda
+		else{
+			//Insertamos el nodo en rama izquierda
+			left->add(val);
+		}
+	}
+		
+	//Si val es menor que value
+	if(val > value){
+		// Si no tiene rama derecha
+		
+		if(right == NULL){
+			//Insertamos en el nodo derecha
+			right = new TreeNode<T>(val);
+		}
+		// Si tiene rama derecha
+		else{
+			//Insertamos el nodo en rama derecha
+			right->add(val);
+		}
+	}
+
 }
 
 template <class T>
 bool TreeNode<T>::find(T val) {
+	//SI val es igual a valor del nodo regresamos verdadero
+	if(val == value){
+		return true;
+	}
+	//Si val es menor a value buscamos del lado izquierdo
+	if(val < value && left != NULL){
+		return left->find(val);
+	}
+	//Si val es mayor a value buscamos del lado derecho
+	if(val > value && right != NULL){
+		return right->find(val);
+	}
+
+	//Si no se encuentra val en el arbol regresamos falso
 	return false;
 }
 
@@ -132,6 +175,12 @@ bool BST<T>::empty() const {
 
 template<class T>
 void BST<T>::add(T val) {
+	if(empty()){
+		root = new TreeNode<T>(val);
+	}
+	else{
+		root->add(val);
+	}
 }
 
 template <class T>
@@ -144,6 +193,7 @@ void BST<T>::removeAll() {
 
 template <class T>
 bool BST<T>::find(T val) const {
+	return root->find(val);
 }
 
 template <class T>

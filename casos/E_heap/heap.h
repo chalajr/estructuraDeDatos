@@ -100,7 +100,7 @@ void Heap<T>::heapify(unsigned int pos) {
 	int prueba = 0;
 	unsigned int posAux;
 	if (prueba == 1){
-		if(data[pos] > data[left(pos)] && left(pos) <= count){
+		if(left(pos) <= count && data[pos] > data[left(pos)]){
 			swap(pos, left(pos));
 			posAux = left(pos);
 			heapify(posAux);
@@ -114,11 +114,11 @@ void Heap<T>::heapify(unsigned int pos) {
 	}
 	else{
 		unsigned int posicion_min = pos;
-		if(data[pos] > data[left(pos)] && left(pos) <= count){
+		if(left(pos) <= count && data[pos] > data[left(pos)]){
 			posicion_min = left(pos);
 		}
 
-		if(data[pos] > data[right(pos)] && right(pos) <= count){
+		if(right(pos) <= count && data[pos] > data[right(pos)]){
 			posicion_min = right(pos);
 		}
 
@@ -152,17 +152,16 @@ void Heap<T>::add(T val) throw (Overflow) {
 template <class T>
 T Heap<T>::remove() throw (NoSuchElement) {
 	// verificar que no este vacio el elemento que quiero eliminar
-	if(empty()){
+	if (empty()) {
 		throw NoSuchElement();
 	}
 
 	T aux = data[0];
 	// pasar el ultimo elemento de la raiz 
-	data[0] = data[count - 1];
+	data[0] = data[--count];
 	// reheap down
 	heapify(0);
-	// eliminar el ultimo elemento
-	// actualizar el count
+	// actualizar count
 	return aux;
 }
 

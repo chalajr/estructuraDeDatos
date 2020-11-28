@@ -79,7 +79,7 @@ bool TreeNode::isOperand() const {
 }
 
 int TreeNode::depth() const {
-	int totalCount;
+	int totalCount = -1;
 	int right_count = -1;
 	int left_count = -1;
 
@@ -93,8 +93,9 @@ int TreeNode::depth() const {
 	if(left != 0){
 		left_count = left->depth();
 	}
-	
-	return 0;
+
+	totalCount = (left_count > right_count) ?  left_count:right_count;
+	return (totalCount +1);
 }
 
 void TreeNode::inorder(std::stringstream &aux) const {
@@ -138,18 +139,108 @@ void TreeNode::preorder(std::stringstream &aux) const {
 }
 
 int TreeNode::howManyLeaves() const {
-	return 0;
+	int left_count = 0;
+    int right_count = 0;
+    int total_count = 0;
+
+    if(left!=0){
+       left_count = left->howManyLeaves();
+    }
+
+
+    if(right!=0){
+       right_count = right->howManyLeaves();
+    }
+
+
+    total_count = left_count + right_count;
+
+	if (total_count == 0){
+		return 1;
+	}
+	else{
+		return total_count;
+	}
 }
 
 char TreeNode::minValue() const {
-	return '9';
+	char left_value = '9';
+    char right_value = '9';
+    char min_value = '9';
+	if (isOperand()){
+		min_value = value;
+	}
+	else if(isOperator()){
+		if(left != 0){
+          left_value = left->minValue();
+        }
+        if(right != 0){
+          right_value = right->minValue();
+        }
+		if(left_value < right_value){
+			min_value = left_value;
+		}
+		else{
+			min_value = right_value;
+		}
+	}
+	return min_value;
 }
 
 bool TreeNode::find(char val) const {
-	return false;
+	bool found = false;
+
+	if(value == val){
+		return true;
+	}
+
+	if(left != 0){
+		if (found || left->find(val)){
+			found = true;
+		}
+		else{
+			found = false;
+		}
+    }
+
+	if(right != 0){
+        if (found || right->find(val)){
+			found = true;
+		}
+		else{
+			found = false;
+		}
+    }
+	return found;
 }
 
 double TreeNode::eval(double x) const {
+	double left_value;
+	double right_value;
+	if (isVariable()){
+        return x;
+    }
+
+    if(isOperand()){
+       return value - '0';
+    }
+
+    if(isOperator()){
+        if(left != 0){
+                left_value = left->eval(x);
+        }
+
+        if(right !=0){
+                right_value = right->eval(x);
+        }
+
+        if (value == '*') return left_value * right_value;
+        if (value == '+') return left_value + right_value;
+        if (value == '-') return left_value - right_value;
+        if (value == '/'){
+                if(right_value == 0) throw IllegalAction();
+                return left_value / right_value;}
+    }
 	return 0;
 }
 
@@ -193,6 +284,7 @@ public:
 };
 
 EvalTree::EvalTree() {
+	root = 0;
 }
 
 std::queue<std::string> EvalTree::tokenize(std::string str) {
@@ -257,7 +349,13 @@ EvalTree::~EvalTree() {
 }
 
 bool EvalTree::empty() const {
-    return (root ==0)? true:false;
+	
+	if(root == 0){
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
 int EvalTree::height() const {
@@ -265,7 +363,7 @@ int EvalTree::height() const {
 		return 0;
 	}
 	else{
-		return root->depth() - 1;
+		return root->depth() + 1;
 	}
 	
 }
@@ -311,19 +409,29 @@ std::string EvalTree::levelOrder() const {
 }
 
 int EvalTree::howManyLeaves() const {
-	return 0;
+	if (empty()){
+		return 0;
+	}
+	return root->howManyLeaves();
 }
 
 char EvalTree::minValue() const throw (IllegalAction) {
-	return '9';
+	if(empty()){
+		throw IllegalAction();
+	}
+	return root->minValue();
 }
 
 bool EvalTree::find(char c) const {
+	return root->find(c);
 	return false;
 }
 
 double EvalTree::eval(double x) const throw (IllegalAction) {
-	return 0.0;
+	if(empty()){
+		throw IllegalAction();
+	}
+	return root->eval(x);
 }
 
 EvalTree* EvalTree::derive() const {

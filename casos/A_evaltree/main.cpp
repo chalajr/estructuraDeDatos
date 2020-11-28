@@ -59,6 +59,7 @@ public:
 		std::cout << " PASSED.\nTest 9";
 
 		/* TEST 9 */
+		std::cout<< a.height();
 		ASSERT_TRUE(a.height() == 4);
 		std::cout << " PASSED.\nTest 10";
 
